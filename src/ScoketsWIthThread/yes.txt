@@ -1,0 +1,20 @@
+@Override
+public void run() {
+    try {
+        this.printWriter = new PrintWriter(socket.getOutputStream(), true);
+        // ... rest of your existing code ...
+    } catch (IOException e) {
+        System.err.println("Error with client #" + clientNumber + ": " + e.getMessage());
+    } catch (NumberFormatException e) {
+        System.err.println("Received invalid number from client #" + clientNumber);
+    } finally {
+        server.removeClientHandler(this);
+        closeConnection();
+    }
+}
+
+public void sendMessage(String message) {
+    if (printWriter != null && !socket.isClosed()) {
+        printWriter.println(message);
+    }
+}
